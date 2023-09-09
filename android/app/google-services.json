@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1039176332601",
+    "firebase_url": "https://otp-auth-48162-default-rtdb.firebaseio.com",
+    "project_id": "otp-auth-48162",
+    "storage_bucket": "otp-auth-48162.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039176332601:android:946049f2c784be10f7e4e8",
+        "android_client_info": {
+          "package_name": "com.example.owner_front"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039176332601-bbsdt1sobirok4dbag1l33gb7pk8fs7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-S8k_u-RT53YXCcRkef_Ggs6nhB520T0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039176332601-bbsdt1sobirok4dbag1l33gb7pk8fs7a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1039176332601-dloak8mfa5vp2fkt9h4sben51ea3p74j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ownerFront.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

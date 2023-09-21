@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:owner_front/screens/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:owner_front/screens/home_screen.dart';
-import 'package:owner_front/screens/splash.dart';
+import 'package:owner_front/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xfff8f8f8)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         primaryColor: const Color(0xff0f2138),
         useMaterial3: true,
         textTheme: GoogleFonts.manropeTextTheme(),

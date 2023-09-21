@@ -1,12 +1,38 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:owner_front/screens/qrcode_screen.dart';
+import 'package:owner_front/widgets/new_req_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:owner_front/widgets/user_card.dart';
 
-import 'package:owner_front/components/user_card.dart';
-
-import '../components/req_list.dart';
-
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final String username = "";
+  String? userFcmToken = "";
+  User? user = FirebaseAuth.instance.currentUser;
+
+  void setUpPushNotification() async {
+
+    final fcm = FirebaseMessaging.instance;
+    await fcm.requestPermission();
+    final token = await fcm.getToken();
+    userFcmToken = token;
+
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setUpPushNotification();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +57,7 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(
             width: 10,
-          )
+          ),
         ],
       ),
       body: Column(
@@ -40,19 +66,32 @@ class HomePage extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const UserCard(),
+          UserCard(
+            username: username,
+          ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child: const Text(
-              "New Requests",
+              "Requests",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          const Expanded(
-            child: RequestList(),
-          ),
+          const Expanded(child: NewRequestList()),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff0f2138),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => QrCodeGenerator(
+                    fcmToken: userFcmToken,
+                  )));
+        },
+        child: const Icon(
+          Icons.qr_code,
+          color: Colors.white,
+        ),
       ),
     );
   }

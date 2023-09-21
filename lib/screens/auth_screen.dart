@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 final _firebase = FirebaseAuth.instance;
+// FirebaseDatabase database = FirebaseDatabase.instance;
+FirebaseFirestore database = FirebaseFirestore.instance;
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -12,10 +16,12 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
-
   var _isLogin = true;
+
   var _enteredEmail = "";
   var _enteredPassword = "";
+  var _enteredName = "";
+  var _enteredVehicleNum = "";
 
   _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -32,12 +38,21 @@ class _AuthScreenState extends State<AuthScreen> {
       } else {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
+        CollectionReference users = database.collection('users');
+        await users.doc(userCredentials.user!.uid).set(
+          {
+            "name": _enteredName,
+            "email": _enteredEmail,
+            "vehicle_number": _enteredVehicleNum,
+          },
+        );
       }
-    } on FirebaseAuthException catch (err) {
+    } catch (err) {
+      print('Error: $err');
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(err.message ?? ' Authentication failed'),
+        const SnackBar(
+          content: Text(' Something failed'),
         ),
       );
     }
@@ -96,6 +111,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                     }
                                     return null;
                                   },
+                                  onSaved: (value) {
+                                    _enteredName = value!;
+                                  },
                                 ),
                           _isLogin
                               ? const SizedBox()
@@ -109,6 +127,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                       return 'Please enter a valid name';
                                     }
                                     return null;
+                                  },
+                                  onSaved: (value) {
+                                    _enteredVehicleNum = value!;
                                   },
                                 ),
                           TextFormField(

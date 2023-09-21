@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class UserCard extends StatelessWidget {
-  const UserCard({super.key});
+  final String username;
+  const UserCard({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       width: double.infinity,
       decoration: BoxDecoration(
         color: const Color(0xff0f2138),
@@ -21,16 +22,16 @@ class UserCard extends StatelessWidget {
           )
         ],
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Welcome, User !',
-            style: TextStyle(
+            'Welcome, $username !',
+            style:const TextStyle(
                 fontSize: 24, fontWeight: FontWeight.w500, color: Colors.white),
           ),
-          SizedBox(height: 5),
-          Text(
+          const SizedBox(height: 5),
+          const Text(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elite.',
             style: TextStyle(
               fontSize: 14,

@@ -18,18 +18,24 @@ class _NewRequestListState extends State<NewRequestList> {
   List<Map<String, dynamic>> messages = [];
 
   openDetailOverlay(
-      String category, String desc, String requestCall, String contactValue) {
+    String category,
+    String desc,
+    String requestCall,
+    String contactValue,
+  ) {
     showModalBottomSheet(
+      backgroundColor: Colors.white,
       context: context,
       builder: (ctx) {
         return Container(
           width: double.infinity,
           padding: const EdgeInsets.all(20.0),
           child: RequestDetailsOverlay(
-              category: category,
-              desc: desc,
-              requestCall: requestCall,
-              contactValue: contactValue),
+            category: category,
+            desc: desc,
+            requestCall: requestCall,
+            contactValue: contactValue,
+          ),
         );
       },
     );
@@ -66,7 +72,7 @@ class _NewRequestListState extends State<NewRequestList> {
             // Access message properties here
             String desc = messageData['desc'].toString();
             String category = messageData['radioOptions'].toString();
-            String requestCall = messageData['reuestCall'].toString();
+            String requestCall = messageData['requestCall'].toString();
             String contactValue = messageData['contactValue'].toString();
             messages.add({
               "key": messageKey,

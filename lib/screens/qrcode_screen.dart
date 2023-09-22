@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrCodeGenerator extends StatelessWidget {
-  final String? fcmToken;
-  const QrCodeGenerator({super.key, this.fcmToken});
+  const QrCodeGenerator({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,8 @@ class QrCodeGenerator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             QrImageView(
-              data: 'https://otp-auth-48162.web.app/$fcmToken',
+              data:
+                  'https://otp-auth-48162.web.app?userId=${FirebaseAuth.instance.currentUser!.uid}',
               version: QrVersions.auto,
               size: 250.0,
             ),

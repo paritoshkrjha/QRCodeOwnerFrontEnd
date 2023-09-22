@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         primaryColor: const Color(0xff0f2138),
+        focusColor: const Color(0xff0f2138),
         useMaterial3: true,
         textTheme: GoogleFonts.manropeTextTheme(),
       ),

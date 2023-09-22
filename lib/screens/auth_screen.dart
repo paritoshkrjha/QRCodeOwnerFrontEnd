@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 final _firebase = FirebaseAuth.instance;
-// FirebaseDatabase database = FirebaseDatabase.instance;
 FirebaseFirestore database = FirebaseFirestore.instance;
 
 class AuthScreen extends StatefulWidget {
@@ -17,6 +15,8 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   var _isLogin = true;
+
+  late UserCredential userCredentials;
 
   var _enteredEmail = "";
   var _enteredPassword = "";
@@ -33,10 +33,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
     try {
       if (_isLogin) {
-        final userCredentials = await _firebase.signInWithEmailAndPassword(
+        userCredentials = await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       } else {
-        final userCredentials = await _firebase.createUserWithEmailAndPassword(
+        userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
         CollectionReference users = database.collection('users');
         await users.doc(userCredentials.user!.uid).set(
@@ -48,7 +48,7 @@ class _AuthScreenState extends State<AuthScreen> {
         );
       }
     } catch (err) {
-      print('Error: $err');
+      // print('Error: $err');
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

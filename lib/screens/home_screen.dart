@@ -40,11 +40,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(
-        backgroundColor: Color(0xfff8f8f8),
-      ),
+      drawer: const Drawer(),
       appBar: AppBar(
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           'QR-Owner',

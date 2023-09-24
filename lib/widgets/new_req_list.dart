@@ -24,7 +24,6 @@ class _NewRequestListState extends State<NewRequestList> {
     String contactValue,
   ) {
     showModalBottomSheet(
-      backgroundColor: Colors.white,
       context: context,
       builder: (ctx) {
         return Container(

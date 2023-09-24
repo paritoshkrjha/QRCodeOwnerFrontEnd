@@ -7,6 +7,8 @@ import 'package:owner_front/screens/home_screen.dart';
 import 'package:owner_front/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
+var kColorScheme = ColorScheme.fromSeed(seedColor: const Color(0xff0f2138));
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -22,12 +24,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        primaryColor: const Color(0xff0f2138),
-        focusColor: const Color(0xff0f2138),
+      theme: ThemeData().copyWith(
+        scaffoldBackgroundColor: const Color(0xfffcfdfd),
+        colorScheme: kColorScheme,
         useMaterial3: true,
-        textTheme: GoogleFonts.manropeTextTheme(),
+        textTheme: GoogleFonts.interTextTheme().copyWith(
+          titleLarge: const TextStyle().copyWith(
+            color: const Color(0xff343d48),
+          ),
+        ),
+        appBarTheme: const AppBarTheme().copyWith(
+          color: Colors.white,
+          foregroundColor: const Color(0xff343d48),
+        ),
+        cardTheme: const CardTheme().copyWith(color: Colors.white),
+        bottomSheetTheme: const BottomSheetThemeData()
+            .copyWith(modalBackgroundColor: Colors.white),
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

@@ -8,6 +8,7 @@ class MainDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const DrawerHeader(
             padding: EdgeInsets.all(20),
@@ -28,14 +29,17 @@ class MainDrawer extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: ListTile(
-              trailing: const Icon(
+              leading: const Icon(
                 Icons.logout,
                 size: 26,
                 color: Colors.black,
               ),
               title: Text(
                 'Sign out',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontSize: 18),
               ),
               onTap: () {
                 FirebaseAuth.instance.signOut();

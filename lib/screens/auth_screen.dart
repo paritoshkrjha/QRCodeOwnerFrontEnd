@@ -53,7 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(kErrorMessages[err]!),
+          content: Text(kErrorMessages[err.code]!),
         ),
       );
     }

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:owner_front/widgets/req_card.dart';
 import 'package:owner_front/widgets/req_overlay.dart';
 
-class NewRequestList extends StatefulWidget {
-  const NewRequestList({super.key});
+class RequestList extends StatefulWidget {
+  const RequestList({super.key});
 
   @override
-  State<NewRequestList> createState() => _NewRequestListState();
+  State<RequestList> createState() => _RequestListState();
 }
 
-class _NewRequestListState extends State<NewRequestList> {
+class _RequestListState extends State<RequestList> {
   final dbRef = FirebaseDatabase.instance.ref().child('messages');
   final currentUser = FirebaseAuth.instance.currentUser;
 
@@ -68,7 +68,6 @@ class _NewRequestListState extends State<NewRequestList> {
               messageData[currentUser!.uid] as Map<dynamic, dynamic>;
 
           userMessages.forEach((messageKey, messageData) {
-            // Access message properties here
             String desc = messageData['desc'].toString();
             String category = messageData['radioOptions'].toString();
             String requestCall = messageData['requestCall'].toString();

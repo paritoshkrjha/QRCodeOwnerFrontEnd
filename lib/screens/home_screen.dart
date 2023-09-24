@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:owner_front/screens/qrcode_screen.dart';
-import 'package:owner_front/widgets/new_req_list.dart';
+import 'package:owner_front/widgets/main_drawer.dart';
+import 'package:owner_front/widgets/req_list.dart';
 // import 'package:owner_front/widgets/user_card.dart';
 
 FirebaseFirestore database = FirebaseFirestore.instance;
@@ -40,26 +41,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      drawer: const MainDrawer(),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
           'QR-Owner',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            icon: const Icon(Icons.exit_to_app),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,11 +62,10 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          const Expanded(child: NewRequestList()),
+          const Expanded(child: RequestList()),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff0f2138),
         onPressed: () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const QrCodeGenerator()));
@@ -87,6 +73,7 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(
           Icons.qr_code,
           color: Colors.white,
+          size: 30,
         ),
       ),
     );

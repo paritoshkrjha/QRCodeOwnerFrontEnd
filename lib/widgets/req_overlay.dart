@@ -88,16 +88,16 @@ class RequestDetailsOverlay extends StatelessWidget {
         const Center(
           child: Text(
             'Request Details',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
         Column(
           children: [
-            requestDetailItem('Category :', options[category]!),
+            requestDetailItem('Category :', kCategoryOptions[category]!),
             const SizedBox(height: 10),
             requestDetailItem('Description :', desc),
             const SizedBox(height: 10),
-            requestDetailItem('Callback',
+            requestDetailItem('Callback :',
                 requestCall == 'true' ? "Requested" : "Not Requested")
           ],
         ),

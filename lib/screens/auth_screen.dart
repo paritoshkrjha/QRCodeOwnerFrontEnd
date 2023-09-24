@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:owner_front/constants/auth_error.dart';
 
 final _firebase = FirebaseAuth.instance;
 FirebaseFirestore database = FirebaseFirestore.instance;
@@ -47,12 +48,12 @@ class _AuthScreenState extends State<AuthScreen> {
           },
         );
       }
-    } catch (err) {
+    } on FirebaseAuthException catch (err) {
       // print('Error: $err');
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(' Something failed'),
+        SnackBar(
+          content: Text(kErrorMessages[err]!),
         ),
       );
     }

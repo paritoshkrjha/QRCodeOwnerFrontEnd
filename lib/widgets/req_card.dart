@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../constants/category.dart';
+
 class RequestCard extends StatelessWidget {
   final Function() openDetailOverlay;
   final String category;
@@ -22,6 +24,10 @@ class RequestCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xfff5f6f7),
         borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.grey.shade200, // Set the border color here
+          width: 2.0, // Set the border width
+        ),
       ),
       child: ListTile(
         trailing: const Icon(
@@ -32,8 +38,9 @@ class RequestCard extends StatelessWidget {
           Icons.car_crash,
         ),
         title: Text(
-          desc,
+          kCategoryOptions[category]!,
           overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 14),
         ),
         subtitle: const Text('15.09.23'),
         onTap: openDetailOverlay,

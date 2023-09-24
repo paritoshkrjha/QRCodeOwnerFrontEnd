@@ -34,12 +34,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
         appBarTheme: const AppBarTheme().copyWith(
-          color: Colors.white,
+          color: const Color(0xfffcfdfd),
           foregroundColor: const Color(0xff343d48),
         ),
         cardTheme: const CardTheme().copyWith(color: Colors.white),
         bottomSheetTheme: const BottomSheetThemeData()
             .copyWith(modalBackgroundColor: Colors.white),
+        floatingActionButtonTheme:
+            const FloatingActionButtonThemeData().copyWith(
+          backgroundColor: const Color(0xff0f2138),
+        ),
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

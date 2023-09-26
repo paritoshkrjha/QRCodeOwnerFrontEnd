@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:owner_front/models/request_message.dart';
 
 import '../constants/category.dart';
 
 class RequestCard extends StatelessWidget {
   final Function() openDetailOverlay;
-  final String category;
-  final String desc;
-  final String requestCall;
-  final DateTime timeStamp;
+  final RequestMessages requestMessage;
   const RequestCard({
     super.key,
-    required this.desc,
-    required this.category,
-    required this.requestCall,
     required this.openDetailOverlay,
-    required this.timeStamp,
+    required this.requestMessage,
   });
 
   @override
@@ -40,12 +35,15 @@ class RequestCard extends StatelessWidget {
           Icons.car_crash,
         ),
         title: Text(
-          kCategoryOptions[category]!,
+          kCategoryOptions[requestMessage.category]!,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 16),
         ),
-        subtitle: Text(
-            '${timeStamp.hour}:${timeStamp.minute} • ${timeStamp.day}/${timeStamp.month}/${timeStamp.year}'),
+        subtitle: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(
+              '${requestMessage.timeStamp.hour}:${requestMessage.timeStamp.minute} • ${requestMessage.timeStamp.day}/${requestMessage.timeStamp.month}/${requestMessage.timeStamp.year}'),
+        ),
         onTap: openDetailOverlay,
       ),
     );

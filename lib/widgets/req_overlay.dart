@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:owner_front/models/request_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants/category.dart';
 
 class RequestDetailsOverlay extends StatelessWidget {
-  final String category, desc, requestCall, contactValue;
+  final RequestMessages requestMessage;
 
-  const RequestDetailsOverlay(
-      {super.key,
-      required this.category,
-      required this.desc,
-      required this.requestCall,
-      required this.contactValue});
+  const RequestDetailsOverlay({
+    super.key,
+    required this.requestMessage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +51,11 @@ class RequestDetailsOverlay extends StatelessWidget {
         onPressed: () async {
           Uri url = Uri.parse('');
           if (isWhatsappIcon) {
-            url = Uri.parse('https://wa.me/$contactValue');
+            url = Uri.parse('https://wa.me/${requestMessage.contactNumber}');
           } else {
             url = Uri(
               scheme: scheme,
-              path: contactValue,
+              path: requestMessage.contactNumber,
             );
           }
 
@@ -93,17 +92,34 @@ class RequestDetailsOverlay extends StatelessWidget {
         ),
         Column(
           children: [
-            requestDetailItem('Category :', kCategoryOptions[category]!),
+            requestDetailItem(
+                'Category', kCategoryOptions[requestMessage.category]!),
             const SizedBox(height: 10),
-            requestDetailItem('Description :', desc),
+            requestDetailItem('Description', requestMessage.description),
             const SizedBox(height: 10),
-            requestDetailItem('Callback :',
-                requestCall == 'true' ? "Requested" : "Not Requested")
+            Row(
+              children: [
+                Expanded(
+                  child: requestDetailItem(
+                      'Callback',
+                      requestMessage.isCallRequested == 'true'
+                          ? "Requested"
+                          : "Not Requested"),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: requestDetailItem(
+                      'Sender\'s Contact', requestMessage.contactNumber),
+                )
+              ],
+            ),
           ],
         ),
         ButtonBar(
           alignment: MainAxisAlignment.center,
           children: [
+            customIconButton(const Icon(FontAwesomeIcons.message), 'tel',
+                Theme.of(context).primaryColor, false),
             customIconButton(const Icon(FontAwesomeIcons.whatsapp), 'sms',
                 Colors.green, true),
             customIconButton(

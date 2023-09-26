@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+  final String userName;
+  const MainDrawer({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -10,16 +11,17 @@ class MainDrawer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const DrawerHeader(
-            padding: EdgeInsets.all(20),
+          DrawerHeader(
+            curve: Curves.easeInOut,
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "Welcome, User !",
+                  userName,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 28,
+                  style: const TextStyle(
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                       color: Color(0xff343d48)),
                 )

@@ -72,12 +72,15 @@ class _RequestListState extends State<RequestList> {
             String category = messageData['radioOptions'].toString();
             String requestCall = messageData['requestCall'].toString();
             String contactValue = messageData['contactValue'].toString();
+            DateTime dateTime =
+                DateTime.fromMillisecondsSinceEpoch(messageData['time']);
             messages.add({
               "key": messageKey,
               "desc": desc,
               "category": category,
               "requestCall": requestCall,
               "contactValue": contactValue,
+              'timeStamp': dateTime,
             });
           });
         }
@@ -97,6 +100,7 @@ class _RequestListState extends State<RequestList> {
               desc: messages[index]['desc'],
               category: messages[index]['category'],
               requestCall: messages[index]['requestCall'],
+              timeStamp : messages[index]['timeStamp'],
               openDetailOverlay: () => openDetailOverlay(
                 messages[index]['category'],
                 messages[index]['desc'],

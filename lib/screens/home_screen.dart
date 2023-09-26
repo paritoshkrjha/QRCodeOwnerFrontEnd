@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:owner_front/screens/qrcode_screen.dart';
 import 'package:owner_front/widgets/main_drawer.dart';
 import 'package:owner_front/widgets/req_list.dart';
-// import 'package:owner_front/widgets/user_card.dart';
 
 FirebaseFirestore database = FirebaseFirestore.instance;
 
@@ -19,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final String username = "";
   String? userFcmToken = "";
+  Map<String, dynamic> userData = {'name': 'User'};
 
   void setUpPushNotification() async {
     final fcm = FirebaseMessaging.instance;
@@ -31,17 +31,32 @@ class _HomePageState extends State<HomePage> {
         .set({'fcmToken': userFcmToken}, SetOptions(merge: true));
   }
 
+  void getUserDetails() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then(
+      (DocumentSnapshot doc) {
+        userData = doc.data() as Map<String, dynamic>;
+      },
+      onError: (e) => print('Error : $e'),
+    );
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
     setUpPushNotification();
+    getUserDetails();
     // print('user : ${FirebaseAuth.instance.currentUser!.uid}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const MainDrawer(),
+      drawer: MainDrawer(userName: userData['name']),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(

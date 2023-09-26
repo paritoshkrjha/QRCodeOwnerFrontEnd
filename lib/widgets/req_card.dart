@@ -8,12 +8,14 @@ class RequestCard extends StatelessWidget {
   final String category;
   final String desc;
   final String requestCall;
+  final DateTime timeStamp;
   const RequestCard({
     super.key,
     required this.desc,
     required this.category,
     required this.requestCall,
     required this.openDetailOverlay,
+    required this.timeStamp,
   });
 
   @override
@@ -42,7 +44,8 @@ class RequestCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 14),
         ),
-        subtitle: const Text('15.09.23'),
+        subtitle: Text(
+            '${timeStamp.hour}:${timeStamp.minute} • ${timeStamp.day}/${timeStamp.month}/${timeStamp.year}'),
         onTap: openDetailOverlay,
       ),
     );

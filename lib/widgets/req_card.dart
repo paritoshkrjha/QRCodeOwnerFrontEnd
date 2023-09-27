@@ -22,7 +22,9 @@ class RequestCard extends StatelessWidget {
         color: const Color(0xfff5f6f7),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: Colors.grey.shade200, // Set the border color here
+          color: requestMessage.isRead == 'true'
+              ? Colors.grey.shade200
+              : const Color(0xff0f2138), // Set the border color here
           width: 2.0, // Set the border width
         ),
       ),
@@ -37,7 +39,9 @@ class RequestCard extends StatelessWidget {
         title: Text(
           kCategoryOptions[requestMessage.category]!,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(
+            fontSize: 16,
+          ),
         ),
         subtitle: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),

@@ -5,7 +5,8 @@ class RequestMessages {
   final String isCallRequested;
   final String contactNumber;
   final DateTime timeStamp;
+  final String isRead;
 
   RequestMessages(this.key, this.description, this.category, this.contactNumber,
-      this.timeStamp, this.isCallRequested);
+      this.timeStamp, this.isCallRequested, this.isRead);
 }

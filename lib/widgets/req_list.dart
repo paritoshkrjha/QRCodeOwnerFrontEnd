@@ -19,6 +19,7 @@ class _RequestListState extends State<RequestList> {
   List<RequestMessages> messages = [];
 
   openDetailOverlay(RequestMessages requestMessage) {
+    convertMessageStatus(requestMessage);
     showModalBottomSheet(
       context: context,
       builder: (ctx) {
@@ -31,6 +32,13 @@ class _RequestListState extends State<RequestList> {
         );
       },
     );
+  }
+
+  convertMessageStatus(RequestMessages requestMessage) async {
+    await FirebaseDatabase.instance
+        .ref()
+        .child('messages/${currentUser!.uid}/${requestMessage.key}')
+        .update({'viewed': 'true'});
   }
 
   @override
@@ -67,8 +75,9 @@ class _RequestListState extends State<RequestList> {
             String contactValue = messageData['contactValue'].toString();
             DateTime dateTime =
                 DateTime.fromMillisecondsSinceEpoch(messageData['time']);
+            String isRead = messageData['viewed'].toString();
             RequestMessages currentMessage = RequestMessages(messageKey, desc,
-                category, contactValue, dateTime, requestCall);
+                category, contactValue, dateTime, requestCall, isRead);
             messages.add(currentMessage);
           });
         }

@@ -21,6 +21,7 @@ class _RequestListState extends State<RequestList> {
   openDetailOverlay(RequestMessages requestMessage) {
     convertMessageStatus(requestMessage);
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       builder: (ctx) {
         return Container(
@@ -69,15 +70,22 @@ class _RequestListState extends State<RequestList> {
               messageData[currentUser!.uid] as Map<dynamic, dynamic>;
 
           userMessages.forEach((messageKey, messageData) {
-            String desc = messageData['desc'].toString();
-            String category = messageData['radioOptions'].toString();
-            String requestCall = messageData['requestCall'].toString();
-            String contactValue = messageData['contactValue'].toString();
-            DateTime dateTime =
-                DateTime.fromMillisecondsSinceEpoch(messageData['time']);
-            String isRead = messageData['viewed'].toString();
-            RequestMessages currentMessage = RequestMessages(messageKey, desc,
-                category, contactValue, dateTime, requestCall, isRead);
+            
+            Coordinates coordinates = Coordinates(
+              latitude: messageData['coordinates']['lat'].toString(),
+              longitude: messageData['coordinates']['lng'].toString(),
+            );
+
+            RequestMessages currentMessage = RequestMessages(
+                key: messageKey,
+                description: messageData['desc'].toString(),
+                category: messageData['radioOptions'].toString(),
+                contactNumber: messageData['contactValue'].toString(),
+                timeStamp:
+                    DateTime.fromMillisecondsSinceEpoch(messageData['time']),
+                isCallRequested: messageData['requestCall'].toString(),
+                isRead: messageData['viewed'].toString(),
+                coordinates: coordinates);
             messages.add(currentMessage);
           });
         }

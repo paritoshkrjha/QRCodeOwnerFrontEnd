@@ -1,3 +1,10 @@
+class Coordinates {
+  final String latitude;
+  final String longitude;
+
+  Coordinates({required this.latitude, required this.longitude});
+}
+
 class RequestMessages {
   final String key;
   final String description;
@@ -6,7 +13,15 @@ class RequestMessages {
   final String contactNumber;
   final DateTime timeStamp;
   final String isRead;
+  final Coordinates coordinates;
 
-  RequestMessages(this.key, this.description, this.category, this.contactNumber,
-      this.timeStamp, this.isCallRequested, this.isRead);
+  RequestMessages(
+      {required this.key,
+      required this.description,
+      required this.category,
+      required this.contactNumber,
+      required this.timeStamp,
+      required this.isCallRequested,
+      required this.isRead,
+      required this.coordinates});
 }

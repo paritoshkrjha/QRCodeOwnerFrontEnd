@@ -8,10 +8,12 @@ import '../constants/category.dart';
 
 class RequestDetailsOverlay extends StatefulWidget {
   final RequestMessages requestMessage;
+  final Function() onDelete;
 
   const RequestDetailsOverlay({
     super.key,
     required this.requestMessage,
+    required this.onDelete,
   });
 
   @override
@@ -124,15 +126,19 @@ class _RequestDetailsOverlayState extends State<RequestDetailsOverlay> {
           double.parse(widget.requestMessage.coordinates.longitude));
     }
 
-    Widget customIconButton(
-        {required icon,
-        required Color color,
-        required Uri uri,
-        required bool requestLaunchMap}) {
+    Widget customIconButton({
+      required icon,
+      required Color color,
+      required Uri uri,
+      required bool requestLaunchMap,
+      required bool disabled,
+    }) {
       return IconButton(
-        onPressed: () {
-          requestLaunchMap ? launchMap() : onPressed(uri);
-        },
+        onPressed: disabled
+            ? null
+            : () {
+                requestLaunchMap ? launchMap() : onPressed(uri);
+              },
         icon: icon,
         style: ButtonStyle(
           padding: const MaterialStatePropertyAll(
@@ -158,11 +164,26 @@ class _RequestDetailsOverlayState extends State<RequestDetailsOverlay> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Center(
-          child: Text(
-            'Request Details',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            const Text(
+              'Request Details',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            IconButton(
+              onPressed: widget.onDelete,
+              style: const ButtonStyle(
+                elevation: MaterialStatePropertyAll(10),
+                backgroundColor: MaterialStatePropertyAll(Colors.white),
+              ),
+              icon: const Icon(Icons.delete),
+            ),
+          ]),
         ),
         Column(
           children: [
@@ -195,21 +216,20 @@ class _RequestDetailsOverlayState extends State<RequestDetailsOverlay> {
         ButtonBar(
           alignment: MainAxisAlignment.center,
           children: [
-            widget.requestMessage.coordinates.latitude != ''
-                ? customIconButton(
-                    icon: const Icon(
-                      FontAwesomeIcons.locationDot,
-                      color: Colors.white,
-                    ),
-                    color: Colors.red,
-                    uri: Uri.parse(
-                      'https://www.google.com/maps/search/?api=1&query=${widget.requestMessage.coordinates.latitude},${widget.requestMessage.coordinates.longitude}',
-                    ),
-                    requestLaunchMap: true,
-                  )
-                : const SizedBox(
-                    width: 0,
-                  ),
+            customIconButton(
+              icon: const Icon(
+                FontAwesomeIcons.locationDot,
+                color: Colors.white,
+              ),
+              color: widget.requestMessage.coordinates.latitude == ''
+                  ? Colors.red.shade300
+                  : Colors.red,
+              uri: Uri.parse(
+                'https://www.google.com/maps/search/?api=1&query=${widget.requestMessage.coordinates.latitude},${widget.requestMessage.coordinates.longitude}',
+              ),
+              requestLaunchMap: true,
+              disabled: widget.requestMessage.coordinates.latitude == '',
+            ),
             customIconButton(
               icon: const Icon(FontAwesomeIcons.message),
               color: Theme.of(context).primaryColor,
@@ -218,6 +238,7 @@ class _RequestDetailsOverlayState extends State<RequestDetailsOverlay> {
                 path: widget.requestMessage.contactNumber,
               ),
               requestLaunchMap: false,
+              disabled: false,
             ),
             customIconButton(
               icon: const Icon(FontAwesomeIcons.whatsapp),
@@ -225,6 +246,7 @@ class _RequestDetailsOverlayState extends State<RequestDetailsOverlay> {
               uri: Uri.parse(
                   'https://wa.me/${widget.requestMessage.contactNumber}'),
               requestLaunchMap: false,
+              disabled: false,
             ),
             customIconButton(
               icon: const Icon(FontAwesomeIcons.phone),
@@ -234,9 +256,10 @@ class _RequestDetailsOverlayState extends State<RequestDetailsOverlay> {
                 path: widget.requestMessage.contactNumber,
               ),
               requestLaunchMap: false,
+              disabled: false,
             ),
           ],
-        )
+        ),
       ],
     );
   }

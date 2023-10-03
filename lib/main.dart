@@ -5,7 +5,7 @@ import 'package:owner_front/screens/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:owner_front/screens/home_screen.dart';
 import 'package:owner_front/screens/splash_screen.dart';
-import 'firebase_options.dart';
+import 'firebase/firebase_options.dart';
 
 var kColorScheme = ColorScheme.fromSeed(seedColor: const Color(0xff0f2138));
 

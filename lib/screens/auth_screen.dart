@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:owner_front/constants/auth_error.dart';
 import 'package:owner_front/screens/splash_screen.dart';
 
+import 'forgot_pass.dart';
+
 final _firebase = FirebaseAuth.instance;
 FirebaseFirestore database = FirebaseFirestore.instance;
 
@@ -207,7 +209,20 @@ class _AuthScreenState extends State<AuthScreen> {
                                   child: Text(_isLogin
                                       ? 'Create an account'
                                       : 'I already have an account'),
-                                )
+                                ),
+                                _isLogin
+                                    ? TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ForgotPassword()));
+                                        },
+                                        child: const Text(
+                                          'Forgot password ?',
+                                          textAlign: TextAlign.end,
+                                        ))
+                                    : const SizedBox(),
                               ],
                             ),
                           ),

@@ -21,18 +21,49 @@ class _RequestListState extends State<RequestList> {
   openDetailOverlay(RequestMessages requestMessage) {
     convertMessageStatus(requestMessage);
     showModalBottomSheet(
-      useSafeArea: true,
       context: context,
       builder: (ctx) {
         return Container(
           width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.75,
           padding: const EdgeInsets.all(20.0),
           child: RequestDetailsOverlay(
             requestMessage: requestMessage,
+            onDelete: () async {
+              final result = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Are you sure?'),
+                  content: const Text(
+                      'This action will permanently delete this message'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Delete'),
+                    ),
+                  ],
+                ),
+              );
+              if (result == null || !result) {
+                return;
+              }
+              deleteRequestMessage(requestMessage);
+            },
           ),
         );
       },
     );
+  }
+
+  deleteRequestMessage(RequestMessages requestMessage) async {
+    await FirebaseDatabase.instance
+        .ref()
+        .child('messages/${currentUser!.uid}/${requestMessage.key}')
+        .remove();
   }
 
   convertMessageStatus(RequestMessages requestMessage) async {
@@ -70,7 +101,6 @@ class _RequestListState extends State<RequestList> {
               messageData[currentUser!.uid] as Map<dynamic, dynamic>;
 
           userMessages.forEach((messageKey, messageData) {
-            
             Coordinates coordinates = Coordinates(
               latitude: messageData['coordinates']['lat'].toString(),
               longitude: messageData['coordinates']['lng'].toString(),

@@ -44,6 +44,9 @@ dependencies:
   qr_flutter: ^4.1.0
   cloud_firestore: ^4.9.2
   maps_launcher: ^2.2.0
+  permission_handler: ^11.0.1
+  screenshot: ^2.1.0
+  image_gallery_saver: ^2.0.3
 
 dev_dependencies:
   flutter_test:

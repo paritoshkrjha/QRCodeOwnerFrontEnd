@@ -27,6 +27,8 @@ class _AuthScreenState extends State<AuthScreen> {
   var _enteredPassword = "";
   var _enteredName = "";
   var _enteredVehicleNum = "";
+  var _enteredEmergencyNum1 = "";
+  var _enteredEmergencyNum2 = "";
 
   _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -52,6 +54,8 @@ class _AuthScreenState extends State<AuthScreen> {
             "name": _enteredName,
             "email": _enteredEmail,
             "vehicle_number": _enteredVehicleNum,
+            "emergency_contact1": _enteredEmergencyNum1,
+            "emergency_contact2": _enteredEmergencyNum2,
           },
         );
       }
@@ -186,6 +190,46 @@ class _AuthScreenState extends State<AuthScreen> {
                                     _enteredPassword = value!;
                                   },
                                 ),
+                                _isLogin
+                                    ? const SizedBox()
+                                    : TextFormField(
+                                        decoration: const InputDecoration(
+                                          labelText: 'Emergency Contact 1',
+                                        ),
+                                        autocorrect: false,
+                                        validator: (value) {
+                                          if (value == null ||
+                                              value.trim().isEmpty ||
+                                              value.length < 10 ||
+                                              value.length > 10) {
+                                            return 'Please enter a valid number';
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          _enteredEmergencyNum1 = value!;
+                                        },
+                                      ),
+                                _isLogin
+                                    ? const SizedBox()
+                                    : TextFormField(
+                                        decoration: const InputDecoration(
+                                          labelText: 'Emergency Contact 2',
+                                        ),
+                                        autocorrect: false,
+                                        validator: (value) {
+                                          if (value == null ||
+                                              value.trim().isEmpty ||
+                                              value.length < 10 ||
+                                              value.length > 10) {
+                                            return 'Please enter a valid number';
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          _enteredEmergencyNum2 = value!;
+                                        },
+                                      ),
                                 const SizedBox(
                                   height: 12,
                                 ),

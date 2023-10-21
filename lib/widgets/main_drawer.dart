@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:owner_front/models/current_user.dart';
+
+import '../screens/emergency_contact.dart';
 
 class MainDrawer extends StatelessWidget {
-  final String userName;
-  const MainDrawer({super.key, required this.userName});
+  final CurrentUser currentUser;
+  const MainDrawer(
+      {super.key, required this.currentUser});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           DrawerHeader(
             curve: Curves.easeInOut,
@@ -18,7 +21,7 @@ class MainDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  userName,
+                  currentUser.userName,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                       fontSize: 24,
@@ -29,7 +32,32 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
+            child: ListTile(
+              leading: const Icon(
+                Icons.emergency,
+                size: 26,
+                color: Colors.black,
+              ),
+              title: Text(
+                'Emergency Contact',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EmergencyContactsScreen(
+                          currentUser: currentUser,
+                        )));
+              },
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ListTile(
               leading: const Icon(
                 Icons.logout,

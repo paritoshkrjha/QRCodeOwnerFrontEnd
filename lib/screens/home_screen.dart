@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:owner_front/models/current_user.dart';
 import 'package:owner_front/screens/qrcode_screen.dart';
+import 'package:owner_front/screens/splash_screen.dart';
 import 'package:owner_front/widgets/main_drawer.dart';
 import 'package:owner_front/widgets/req_list.dart';
 
@@ -18,7 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final String username = "";
   String? userFcmToken = "";
-  Map<String, dynamic> userData = {'name': 'User'};
+  bool isUserDetailsReady = false;
+  late CurrentUser currentUser;
 
   void setUpPushNotification() async {
     final fcm = FirebaseMessaging.instance;
@@ -38,11 +41,22 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (DocumentSnapshot doc) {
-        userData = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> userDetails = doc.data() as Map<String, dynamic>;
+        CurrentUser user = CurrentUser(
+          emergencyContact1: userDetails['emergency_contact1'],
+          emergencyContact2: userDetails['emergency_contact2'],
+          userName: userDetails['name'],
+          email: userDetails['email'],
+          vehicleNum: userDetails['vehicle_number'],
+        );
+
+        setState(() {
+          isUserDetailsReady = true;
+          currentUser = user;
+        });
       },
-      onError: (e) => print('Error : $e'),
+      // onError: (e) => print('Error : $e'),
     );
-    setState(() {});
   }
 
   @override
@@ -55,42 +69,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: MainDrawer(userName: userData['name']),
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'QR-Owner',
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            child: const Text(
-              "Requests",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    return !isUserDetailsReady
+        ? const Center(
+            child: SplashScreen(),
+          )
+        : Scaffold(
+            drawer: MainDrawer(
+              currentUser: currentUser,
             ),
-          ),
-          const Expanded(child: RequestList()),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const QrCodeGenerator()));
-        },
-        child: const Icon(
-          Icons.qr_code,
-          color: Colors.white,
-          size: 30,
-        ),
-      ),
-    );
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text(
+                'QR-Owner',
+              ),
+            ),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  child: const Text(
+                    "Requests",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const Expanded(child: RequestList()),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const QrCodeGenerator()));
+              },
+              child: const Icon(
+                Icons.qr_code,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          );
   }
 }
